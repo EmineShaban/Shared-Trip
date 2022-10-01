@@ -1,56 +1,68 @@
-<!DOCTYPE html>
+
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <title>Deatils Page</title>
-
     <!-- Do not forget to change the path to the css file -->
     <link rel="stylesheet" href="/css/style.css">
+    <title>Profile Page</title>
 </head>
 
 <body>
-
-    <div id="box">
-
-        <!-- In case of error, you should display div with class "error-box" -->
-        <!-- You can choose to display the first error or all of them (error message/s in your opinion) -->
-        {{#if error}}
-        <div class="error-box">
-            <p>{{error}}</p>
-        </div>
-        {{/if}}
-        <nav>
-
-            <!-- Do not forget to change the path to the image -->
-            <img src="/img/art-logo.png" alt="logo">
-            <a href="/">ArtGallery</a>
-
-            <ul class="menu">
-                <li><a href="#">Gallery</a></li>
-                <!-- Logged users -->
-                {{#if user}}
-                <li><a href="#">Create Publication</a></li>
-                <li><a href="#">Profile</a></li>
-                <li><a href="/auth/logout">Logout</a></li>
-                <!-- Guest users -->
-                {{else}}
-                <li><a href="/auth/login">Login</a></li>
-                <li><a href="/auth/register">Register</a></li>
-                {{/if}}
-            </ul>
-
-        </nav>
-
-
-        {{{body}}}
-
-
-
-        <footer>
-            © Js Back-End Retake Exam 2021
-        </footer>
+    <!-- In case of error, you should display div with class "error" -->
+    <!-- You can choose to display the first error or all of them (error message/s in your opinion) -->
+    {{#if error}}
+    <div class="error">
+        <p>{{error}}</p>
     </div>
+    {{/if}}
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <div class="container">
+            <!-- Do not forget to change the path to the images -->
+            <img class="logo" src="/images/before.png" alt="before-logo">
+            <img class="car logo" src="/images/trip-logo.png" alt="trip-logo">
+            <img class="logo" src="/images/after.png" alt="after-logo">
+            <div class="collapse navbar-collapse" id="navbarResponsive">
+
+                <ul class="navbar-nav ml-auto">
+                    <!-- Guest users and Logged users -->
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/trip/shared">Shared Trips</a>
+                    </li>
+                    <!-- Logged users -->
+                    <li class="nav-item">
+                        <a class="nav-link" href="/trip/offer">Offer Trip</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/profile">Profile</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/auth/logout">Logout as [ test@abv.bg ]</a>
+                    </li>
+                    <!-- Guest users -->
+                    <li class="nav-item">
+                        <a class="nav-link" href="/auth/login">Login</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/auth/register">Register</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    {{{body}}}
+
+
+
+
+    <footer id="sticky-footer" class="bg-dark">
+        <div class="container">
+            <p class="m-0 text-center text-white">Copyright &copy; Shared Trip 2021</p>
+        </div>
+    </footer>
 </body>
 
 </html>
