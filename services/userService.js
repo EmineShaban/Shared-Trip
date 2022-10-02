@@ -1,4 +1,5 @@
 const User = require('../models/User')
+// const Trip = require('../models/Trip')
 
 exports.getOne = (userId) => User.findById(userId)
 exports.addTrip = async(userId, tripID) =>{
@@ -7,5 +8,6 @@ exports.addTrip = async(userId, tripID) =>{
 // user.tri.push(triID)
 // await user.save()
 // return user
+
 return User.updateOne({_id: userId}, {$push: {tripsHistory: tripID}})
 }

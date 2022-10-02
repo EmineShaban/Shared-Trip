@@ -32,7 +32,7 @@ router.post('/register', isGueat, async (req, res) =>{
 
 
     try{
-       const createdUser =  await authServices.create({password, ...userData})
+       const createdUser =  await authServices.create({...userData, password})
        const token = await authServices.createToken(createdUser)
 
        res.cookie(COOKIE_SESSION_NAME, token, {httpOnly: true})
