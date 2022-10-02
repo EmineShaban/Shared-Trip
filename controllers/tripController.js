@@ -3,8 +3,10 @@ const { isAuth, isGueat } = require('../middlewares/authMiddleware')
 const {getErrorMessage} = require('../utils/errorHelper')
 const tripServices = require('../services/tripServices')
 
-router.get('/shared',isAuth, (req, res) => {
-    res.render('trip/shared')
+router.get('/shared',isAuth, async (req, res) => {
+    const tripOffer = await tripServices.getAll().lean()
+    res.render('trip/shared', { tripOffer })
+    // res.render('trip/shared')
 })
 
 router.get('/create', isAuth , (req, res) => {
