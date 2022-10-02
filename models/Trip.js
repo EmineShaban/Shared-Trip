@@ -20,7 +20,7 @@ const tripSchema = new mongoose.Schema({
         type: String,
         required: true
     },    
-    data: {
+    date: {
         type: String,
         required: true
     },    
@@ -37,22 +37,22 @@ const tripSchema = new mongoose.Schema({
         required: true
     },    
     seats: {
-        type: String,
+        type: Number,
         required: true
     },    
     price: {
-        type: String,
+        type: Number,
         required: true
     },    
     description: {
         type: String,
         required: true
     },
-    tripsHistory: {
+    tripsHistory: [{
         type: mongoose.Types.ObjectId,
         ref: 'User',
-        required: true,
-    },
+        // required: true,
+    }],
     Buddies: [{
         type: mongoose.Types.ObjectId,
         ref: 'User',
@@ -60,5 +60,5 @@ const tripSchema = new mongoose.Schema({
 
 })
 
-const Trip = mongoose.model('User', tripSchema)
+const Trip = mongoose.model('Trip', tripSchema)
 module.exports = Trip
