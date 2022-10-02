@@ -12,9 +12,6 @@ const userSchema = new mongoose.Schema({
     },
     gender: {
         type: String,
-        // possibleValues: ["male", "female"],
-        // description: {type: String, possibleValues: ["male", "female"]  }
-        // enum: ["male", "female"],
         required: true,
     },
     tripsHistory: [{

@@ -48,11 +48,11 @@ const tripSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    tripsHistory: [{
-        type: mongoose.Types.ObjectId,
+    tripsHistory: {
+        type: Object,
         ref: 'User',
-        // required: true,
-    }],
+        required: true,
+    },
     Buddies: [{
         type: mongoose.Types.ObjectId,
         ref: 'User',
