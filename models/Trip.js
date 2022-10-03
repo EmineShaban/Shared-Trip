@@ -54,8 +54,9 @@ const tripSchema = new mongoose.Schema({
         required: true,
     },
     Buddies: [{
-        type: mongoose.Types.ObjectId,
+        type: Object,
         ref: 'User',
+        default: [],
     }]
 
 })

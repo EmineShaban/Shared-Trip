@@ -18,3 +18,15 @@ exports.isTripAuthor = (req, res, next) => {
     }
     next()
 }
+// exports.result = (req, res, next) => {
+//     let myArr = req.trip.Buddies
+//     for (let i = 0; i < myArr.length; i++) {
+//         if(myArr[i].Buddies == req.user._id){
+//             return myArr[i]
+//         }
+
+//     }
+//     next()
+// }
+
+// req.user._id
