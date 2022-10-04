@@ -10,12 +10,18 @@ router.get('/login', isGueat, (req, res) =>{
     res.render('auth/login');
 })
 router.post('/login', isGueat, async (req, res) =>{
+    try{
+
     const {email, password} = req.body
    const user = await authServices.login(email, password)
    const token = await authServices.createToken(user)
 
    res.cookie(COOKIE_SESSION_NAME, token, {httpOnly: true})
     res.redirect('/')
+    }catch(error){
+        return res.render('auth/login', {error: getErrorMessage(error)})
+
+    }
 });
 
 
