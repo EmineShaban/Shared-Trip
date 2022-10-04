@@ -3,7 +3,7 @@ const { isAuth, isGueat } = require('../middlewares/authMiddleware')
 const { getErrorMessage } = require('../utils/errorHelper')
 const tripServices = require('../services/tripServices')
 const userService = require('../services/userService')
-const { preloadTrip, isTripAuthor} = require('../middlewares/tripMiddleware')
+const { preloadTrip, isTripAuthor } = require('../middlewares/tripMiddleware')
 
 
 router.get('/shared', async (req, res) => {
@@ -31,6 +31,8 @@ router.post('/create', isAuth, async (req, res) => {
 router.get(
     '/:tripID/details',
     async (req, res) => {
+        try {
+
         const trip = await tripServices.getOneDetailed(req.params.tripID).lean()
         const isAuthor = trip.tripsHistory._id == req.user?._id
         const isAvailibleSeats = trip.seats > 0
@@ -38,8 +40,11 @@ router.get(
         const listBuddies = trip.Buddies.map(e => e.email).join(', ')
         const isAlreadyJoin = trip.Buddies.map(e => e._id).find(element => element == req.user._id) == req.user._id
 
-        console.log(isAlreadyJoin)
+        // console.log(isAlreadyJoin)
         res.render('trip/details', { ...trip, isAuthor, isAvailibleSeats, isAlreadyJoin, listBuddies })
+    } catch (error) {
+        return res.render(`/trip/${req.params.tripID}/details`, { error: getErrorMessage(error) })
+    }
     })
 
 router.get(
@@ -82,6 +87,8 @@ router.get(
     preloadTrip,
 
     async (req, res) => {
+        try {
+
         if (req.trip.seats > 0) {
             req.trip.seats -= 1
             await tripServices.updateOne(req.params.tripID, req.trip.seats)
@@ -89,9 +96,14 @@ router.get(
             // console.log(req.user)
             res.redirect(`/trip/${req.params.tripID}/details`)
         }
-
+    } catch (error) {
+        res.render(`/trip/${req.params.tripID}/details`, { ...req.body, error: getErrorMessage(error) })
+    }
     })
 
-
+    router.get('*', (req, res) => {
+        res.render('404')
+    })
+    
 
 module.exports = router
