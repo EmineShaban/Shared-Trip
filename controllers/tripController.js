@@ -34,20 +34,12 @@ router.get(
         const trip = await tripServices.getOneDetailed(req.params.tripID).lean()
         const isAuthor = trip.tripsHistory._id == req.user?._id
         const isAvailibleSeats = trip.seats > 0
-        const isAlreadyJoin = trip.Buddies.includes(req.user?._id)
-        // const isShared = publication.usersShared.includes(req.user._id) 
-        // const isShared = trip.Buddies.find(element => element == req.user._id)
-        // const isShared = trip.Buddies.find(element => element == req.user._id)
-
-        
+        // const isAlreadyJoin = trip.Buddies.find(element => element == req.user._id) == req.user._id
+        const listBuddies = trip.Buddies.map(e => e.email).join(', ')
+        const isAlreadyJoin = trip.Buddies.map(e => e._id).find(element => element == req.user._id) == req.user._id
 
         console.log(isAlreadyJoin)
-        console.log(req.user._id)
-        console.log(trip.Buddies[0]._id)
-
-        // let email = trip.tripsHistory.email
-        // console.log(trip.tripsHistory)
-        res.render('trip/details', { ...trip, isAuthor, isAvailibleSeats })
+        res.render('trip/details', { ...trip, isAuthor, isAvailibleSeats, isAlreadyJoin, listBuddies })
     })
 
 router.get(
