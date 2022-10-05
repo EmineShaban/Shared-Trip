@@ -11,4 +11,4 @@ exports.updateOne = (tripID, seatsNew) => Trip.updateOne({ _id: tripID }, { $set
 exports.addBuddies = (tripID, userId) => Trip.updateOne({ _id: tripID }, { $push: { "Buddies" : userId } }, { runValidators: true })
 // exports.addBuddies = (tripID, userId) => Trip.updateOne({_id: tripID}, {$push: {Buddies: userId}})
 
-// exports.getTripByID = (userId) => Trip.findById(userId)
+exports.getTripByID = (userId) => Trip.find({tripsHistory: userId})

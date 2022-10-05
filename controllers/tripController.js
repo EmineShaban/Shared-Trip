@@ -17,7 +17,7 @@ router.get('/create', isAuth, (req, res) => {
 
 router.post('/create', isAuth, async (req, res) => {
     try {
-        const trip = await tripServices.create({ ...req.body, tripsHistory: req.user })
+        const trip = await tripServices.create({ ...req.body, tripsHistory: req.user._id })
 
         await userService.addTrip(req.user._id, trip._id)
         // console.log(req.user)
@@ -32,15 +32,11 @@ router.get(
     '/:tripID/details',
     async (req, res) => {
         try {
-
         const trip = await tripServices.getOneDetailed(req.params.tripID).lean()
         const isAuthor = trip.tripsHistory._id == req.user?._id
         const isAvailibleSeats = trip.seats > 0
-        // const isAlreadyJoin = trip.Buddies.find(element => element == req.user._id) == req.user._id
         const listBuddies = trip.Buddies.map(e => e.email).join(', ')
         const isAlreadyJoin = trip.Buddies.map(e => e._id).find(element => element == req.user._id) == req.user._id
-
-        // console.log(isAlreadyJoin)
         res.render('trip/details', { ...trip, isAuthor, isAvailibleSeats, isAlreadyJoin, listBuddies })
     } catch (error) {
         return res.render(`/trip/${req.params.tripID}/details`, { error: getErrorMessage(error) })
