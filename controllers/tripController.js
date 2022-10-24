@@ -17,7 +17,7 @@ router.get('/create', isAuth, (req, res) => {
 
 router.post('/create', isAuth, async (req, res) => {
     try {
-        const trip = await tripServices.create({ ...req.body, tripsHistory: req.user._id })
+        const trip = await tripServices.create({ ...req.body, tripsHistory: req.user })
         await userService.addTrip(req.user._id, trip._id)
         res.redirect('/trip/shared')
     } catch (error) {
