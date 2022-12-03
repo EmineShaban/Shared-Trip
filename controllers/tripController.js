@@ -17,32 +17,31 @@ router.get('/create', isAuth, (req, res) => {
 
 router.post('/create', isAuth, async (req, res) => {
     try {
-        const trip = await tripServices.create({ ...req.body, tripsHistory: req.user })
+        const trip = await tripServices.create({ ...req.body, tripsHistory: req.user._id })
+
         await userService.addTrip(req.user._id, trip._id)
+        // console.log(req.user)
         res.redirect('/trip/shared')
     } catch (error) {
         return res.render('trip/create', { error: getErrorMessage(error) })
     }
 })
-//http://localhost:3000/trip/633d3a9aed5a1a2ac19fc51b/details
-//http://localhost:3000/trip/633d3a9aed5a1a2ac19fc51b/details
+
+
 router.get(
     '/:tripID/details',
-    // isAuth,
     async (req, res) => {
-    try {
-        
+        try {
         const trip = await tripServices.getOneDetailed(req.params.tripID).lean()
         const isAuthor = trip.tripsHistory._id == req.user?._id
         const isAvailibleSeats = trip.seats > 0
         const listBuddies = trip.Buddies.map(e => e.email).join(', ')
-        const isAlreadyJoin = trip.Buddies.map(e => e._id).find(element => element == req.user?._id) == req.user?._id
+        const isAlreadyJoin = trip.Buddies.map(e => e._id).find(element => element == req.user._id) == req.user._id
         res.render('trip/details', { ...trip, isAuthor, isAvailibleSeats, isAlreadyJoin, listBuddies })
     } catch (error) {
-        return res.render(`trip/details`, { error: getErrorMessage(error) })
+        return res.render(`/trip/${req.params.tripID}/details`, { error: getErrorMessage(error) })
     }
     })
-
 
 router.get(
     '/:tripID/delete',
